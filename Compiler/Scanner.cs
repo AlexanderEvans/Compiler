@@ -317,6 +317,7 @@ namespace Compiler
                             sb.Append(input[inputIndex + i]);
                         }
 
+                        hasLiteral = true;
                         Literal = sb.ToString();
                         Lexeme = "\"" + Literal + "\"";
                         inputIndex += i;

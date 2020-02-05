@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Compiler
 {
+    //handles holding output and messageing at different detail levels, with optional auto coloring
     class Printer
     {
         public enum Mode { err = 1, warn = 2, info = 4, detail = 8}

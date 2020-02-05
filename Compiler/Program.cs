@@ -6,15 +6,21 @@ namespace Compiler
     {
         static int Main(string[] args)
         {
-            if(args.Length!=2)
+            Printer.DetLine("Checking input args...");
+            if (args.Length!=2)//ensure we were given a filepath
             {
                 return 1;
             }
+            //initialize scanner
+            Printer.DetLine("Initializing scanner...");
             Scanner scanner = new Scanner();
 
-            Printer.WriteLine("Reading File...");
+            //read file
+            Printer.DetLine("Reading File...");
             scanner.LoadInput(FileParser.GetStringFromFile(args[2]));
 
+            Printer.DetLine("Scanning File...");
+            Printer.WriteLine("Token \tData");
             while (scanner.token != Globals.Token.eofT)
             {
                 scanner.GetNextToken();
