@@ -13,6 +13,7 @@ namespace Compiler
             relOpT, addOpT, mulOpT, assignOpT,
             oParenT, cParenT, oBraceT, cBraceT, oBrackT, cBrackT,
             dotT, commaT, dQuoteT, semicolonT,
+            numT, idT, unknownT, eofT
         }
     }
     struct StructuralKeyValuePair<Key, Value>
