@@ -4,10 +4,12 @@ using System.Text;
 
 namespace Compiler
 {
+    //performs a lexical analysis of a string
     class Scanner
     {
         Dictionary<string, Globals.Token> lookupTable = new Dictionary<string, Globals.Token>();
 
+        //initialize lookup table for scanner
         public Scanner()
         {
             lookupTable.Add("class", Globals.Token.classT);
@@ -43,6 +45,7 @@ namespace Compiler
 
         public void LoadInput(string input) => this.input = input;
 
+        //clears the scanner variables
         void clrVal()
         {
             Lexeme = "";
@@ -54,8 +57,10 @@ namespace Compiler
 
         StringBuilder sb = new StringBuilder();
 
+        //try to scan the next token and update the scanner state.
         public void GetNextToken()
         {
+            //handle eof
             if(inputIndex>=input.Length)
             {
                 clrVal();
@@ -65,6 +70,7 @@ namespace Compiler
 
             switch (input[inputIndex])
             {
+                //handle simple symbol lexems
                 case '(':
                     clrVal();
                     token = Globals.Token.oParenT;
@@ -137,42 +143,7 @@ namespace Compiler
                     Lexeme = "" + input[inputIndex];
                     inputIndex++;
                     break;
-                case '/':
-                    clrVal();
-
-                    if (inputIndex + 1 < input.Length && input[inputIndex + 1] == '/')
-                    {
-                        int cIndex = 0;
-                        while (inputIndex + cIndex < input.Length && input[inputIndex + cIndex] != '\n')
-                        {
-                            cIndex++;
-                        }
-
-                        inputIndex += cIndex;
-                        GetNextToken();
-                    }
-                    else if (inputIndex + 1 < input.Length && input[inputIndex + 1] == '*')
-                    {
-                        int cIndex = 2;
-                        while (inputIndex + cIndex + 1 < input.Length && !(input[inputIndex + cIndex] == '*' && input[inputIndex + cIndex+1] == '/')) 
-                        {
-                            cIndex++;
-                        }
-                        cIndex++;
-
-                        if(inputIndex + cIndex >= input.Length)
-                            Printer.WarnLine("Scanner Warning: Unmatched parenthesis, was expecting '*/' but found 'eof'");
-
-                        inputIndex += cIndex;
-                        GetNextToken();
-                    }
-                    else
-                    {
-                        token = Globals.Token.mulOpT;
-                        Lexeme = "" + input[inputIndex];
-                        inputIndex++;
-                    }
-                    break;
+                //handle compound 2 char lexemes
                 case '=':
                     clrVal();
 
@@ -269,6 +240,60 @@ namespace Compiler
                         inputIndex++;
                     }
                     break;
+                //handle whitespace
+                case ' ':
+                    inputIndex++;
+                    GetNextToken();
+                    break;
+                case '\n':
+                    inputIndex++;
+                    GetNextToken();
+                    break;
+                case '\t':
+                    inputIndex++;
+                    GetNextToken();
+                    break;
+                case '\r':
+                    inputIndex++;
+                    GetNextToken();
+                    break;
+                //handle variable length lexemes
+                case '/':
+                    clrVal();
+
+                    if (inputIndex + 1 < input.Length && input[inputIndex + 1] == '/')
+                    {
+                        int cIndex = 0;
+                        while (inputIndex + cIndex < input.Length && input[inputIndex + cIndex] != '\n')
+                        {
+                            cIndex++;
+                        }
+
+                        inputIndex += cIndex;
+                        GetNextToken();
+                    }
+                    else if (inputIndex + 1 < input.Length && input[inputIndex + 1] == '*')
+                    {
+                        int cIndex = 2;
+                        while (inputIndex + cIndex + 1 < input.Length && !(input[inputIndex + cIndex] == '*' && input[inputIndex + cIndex + 1] == '/'))
+                        {
+                            cIndex++;
+                        }
+                        cIndex++;
+
+                        if (inputIndex + cIndex >= input.Length)
+                            Printer.WarnLine("Scanner Warning: Unmatched parenthesis, was expecting '*/' but found 'eof'");
+
+                        inputIndex += cIndex;
+                        GetNextToken();
+                    }
+                    else
+                    {
+                        token = Globals.Token.mulOpT;
+                        Lexeme = "" + input[inputIndex];
+                        inputIndex++;
+                    }
+                    break;
                 case '"':
                     clrVal();
                     token = Globals.Token.dQuoteT;
@@ -306,6 +331,7 @@ namespace Compiler
             }
         }
 
+        //handle numbers, reserved workds, and identifiers
         private void defaultScannerFallback()
         {
             if (!checkDigit())
@@ -317,6 +343,7 @@ namespace Compiler
                 }
         }
 
+        //check for reserved words and identifiers
         private bool checkWord()
         {
             clrVal();
@@ -334,7 +361,7 @@ namespace Compiler
                 Lexeme = sb.ToString();
 
                 i = 1;
-                while (inputIndex + i+1 < input.Length && (char.IsLetterOrDigit(input[inputIndex + i]) || input[inputIndex + i] == '.'))
+                while (inputIndex + i+1 < input.Length && (char.IsLetterOrDigit(input[inputIndex + i]) || input[inputIndex + i] == '.') && i<256)
                     i++;
                 sb.Clear();
                 for (int j = 0; j < i; j++)
@@ -358,6 +385,7 @@ namespace Compiler
             return false;
         }
 
+        //check for integers and floating point numbers
         private bool checkDigit()
         {
             string digits = "0123456789";
