@@ -13,6 +13,10 @@ namespace Compiler
                 Printer.ErrLine("Scanner object must be passed to RecursiveDescentParser!");
             else
                 scanner = scannerObj;
+
+
+
+            return 0;
         }
 
         static int Match(Globals.Token desired)
