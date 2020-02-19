@@ -15,5 +15,19 @@ namespace Compiler
                 scanner = scannerObj;
         }
 
+        static int Match(Globals.Token desired)
+        {
+            int rtnVal = 0;
+            if (desired == scanner.token)
+            {
+                scanner.GetNextToken();
+            }
+            else
+            {
+                Printer.ErrLine("Error, was expecting \"" + desired + "\" but found \"" + scanner.token + "\"");
+                rtnVal = 1;
+            }
+            return rtnVal;
+        }
     }
 }
