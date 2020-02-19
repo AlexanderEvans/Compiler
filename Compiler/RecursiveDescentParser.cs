@@ -7,7 +7,7 @@ namespace Compiler
     class RecursiveDescentParser
     {
         static Scanner scanner=null;
-        public static void Parse(Scanner scannerObj)
+        public static int Parse(Scanner scannerObj)
         {
             if (scannerObj == null)
                 Printer.ErrLine("Scanner object must be passed to RecursiveDescentParser!");
