@@ -8,7 +8,7 @@ namespace Compiler
     class Printer
     {
         public enum Mode { err = 1, warn = 2, info = 4, detail = 8}
-        public static Mode Mask = Mode.err | Mode.warn | Mode.info;
+        public static Mode Mask = Mode.err | Mode.warn | Mode.info | Mode.detail;
 
         static int lineNumber = 1;
         public static void ErrLine(string msg, bool suppressColor = false) => Err(msg + '\n', suppressColor);
@@ -41,7 +41,7 @@ namespace Compiler
         {
             ConsoleColor cache = Console.ForegroundColor;
             if (!suppressColor)
-                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.ForegroundColor = ConsoleColor.DarkGray;
 
             Write(msg, Mode.detail);
             Console.ForegroundColor = cache;
@@ -52,13 +52,18 @@ namespace Compiler
         {
             if((Mask & mode)!=0)
             {
-                string[] lines = msg.Split('\n');
+                string[] lines = msg.Split('\n', StringSplitOptions.None);
                 bool firstrun = true;
                 foreach (string s in lines)
                 {
                     if (lineNumber % 20 == 0)
                     {
-                        Console.Write("\nHolding output, please press any key to continue...");
+                        ConsoleColor cache = Console.ForegroundColor;
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.Write("Holding output, please press any key to continue...\n");
+                        Console.ForegroundColor = cache;
+
+                        lineNumber++;
                         Console.ReadKey(true);
                     }
                     if (firstrun == false)
@@ -66,6 +71,8 @@ namespace Compiler
                         lineNumber++;
                         Console.Write('\n');
                     }
+                    else
+                        firstrun = false;
                     Console.Write(s);
                 }
             }

@@ -336,12 +336,15 @@ namespace Compiler
         private void defaultScannerFallback()
         {
             if (!checkDigit())
+            {
                 if (!checkWord())
                 {
                     clrVal();
                     token = Globals.Token.unknownT;
+                    Lexeme = "" + input[inputIndex];
                     inputIndex++;
                 }
+            }
         }
 
         //check for reserved words and identifiers
@@ -350,6 +353,7 @@ namespace Compiler
             clrVal();
             if(char.IsLetter(input[inputIndex]))
             {
+
                 int i = 1;
                 while (inputIndex+i+1<input.Length && (char.IsLetterOrDigit(input[inputIndex + i]) || input[inputIndex + i] == '_') && i<31)
                     i++;
@@ -375,12 +379,8 @@ namespace Compiler
                     clrVal();
                     token = myTok;
                     Lexeme = sb.ToString();
-                    inputIndex += Lexeme.Length;
                 }
-                else
-                {
-                    inputIndex += Lexeme.Length;
-                }
+                inputIndex += Lexeme.Length;
                 return true;
             }
             return false;
@@ -433,9 +433,6 @@ namespace Compiler
             }
             else
             {
-                token = Globals.Token.unknownT;
-                Lexeme = "" + input[inputIndex];
-                inputIndex++;
                 return false;
             }
         }

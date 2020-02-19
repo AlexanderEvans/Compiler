@@ -7,8 +7,9 @@ namespace Compiler
         static int Main(string[] args)
         {
             Printer.DetLine("Checking input args...");
-            if (args.Length!=2)//ensure we were given a filepath
+            if (args.Length!=1)//ensure we were given a filepath
             {
+                Printer.Err("Found " + args.Length + " args... quiting");
                 return 1;
             }
             //initialize scanner
@@ -16,24 +17,28 @@ namespace Compiler
             Scanner scanner = new Scanner();
 
             //read file
-            Printer.DetLine("Reading File...");
-            scanner.LoadInput(FileParser.GetStringFromFile(args[2]));
+            Printer.DetLine("Reading File...\""+ args[0] + "\"");
+            scanner.LoadInput(FileParser.GetStringFromFile(args[0]));
 
             Printer.DetLine("Scanning File...");
-            Printer.WriteLine("Token \tData");
+            Printer.WriteLine("Token      Data");
+            Printer.WriteLine("===============");
             while (scanner.token != Globals.Token.eofT)
             {
                 scanner.GetNextToken();
-                Printer.Write(scanner.token+"");
+                int padFeildOne = 10;
+                int tmpLen = (scanner.token + "").Length;
+                Printer.Write((scanner.token+""));
+                for (int i = 0; i < (padFeildOne - tmpLen); i++)
+                    Printer.Write(" ");
                 if (scanner.Value.HasValue)
-                    Printer.Write(" \t" + scanner.Value.Value);
+                    Printer.WriteLine(" " + scanner.Value.Value);
                 else if (scanner.ValueR.HasValue)
-                    Printer.Write(" \t" + scanner.ValueR.Value);
+                    Printer.WriteLine(" " + scanner.ValueR.Value );
                 else if (scanner.hasLiteral)
-                    Printer.Write(" \t\"" + scanner.Literal + "\"");
+                    Printer.WriteLine(" \"" + scanner.Literal + "\"");
                 else
-                    Printer.Write(" \t" + scanner.Lexeme);
-                Printer.Write("\n");
+                    Printer.WriteLine(" " + scanner.Lexeme);
             }
 
             return 0;
