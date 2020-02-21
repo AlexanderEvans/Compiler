@@ -19,28 +19,28 @@ namespace Compiler
             //read file
             Printer.DetLine("Reading File...\""+ args[0] + "\"");
             scanner.LoadInput(FileParser.GetStringFromFile(args[0]));
-            RecursiveDescentParser.Parse(scanner);
+            //RecursiveDescentParser.Parse(scanner);
 
-            //Printer.DetLine("Scanning File...");
-            //Printer.WriteLine("Token      Data");
-            //Printer.WriteLine("===============");
-            //while (scanner.token != Globals.Token.eofT)
-            //{
-            //    scanner.GetNextToken();
-            //    int padFeildOne = 10;
-            //    int tmpLen = (scanner.token + "").Length;
-            //    Printer.Write((scanner.token+""));
-            //    for (int i = 0; i < (padFeildOne - tmpLen); i++)
-            //        Printer.Write(" ");
-            //    if (scanner.Value.HasValue)
-            //        Printer.WriteLine(" " + scanner.Value.Value);
-            //    else if (scanner.ValueR.HasValue)
-            //        Printer.WriteLine(" " + scanner.ValueR.Value );
-            //    else if (scanner.hasLiteral)
-            //        Printer.WriteLine(" \"" + scanner.Literal + "\"");
-            //    else
-            //        Printer.WriteLine(" " + scanner.Lexeme);
-            //}
+            Printer.DetLine("Scanning File...");
+            Printer.WriteLine("Token      Data");
+            Printer.WriteLine("===============");
+            while (scanner.token != Globals.Token.eofT)
+            {
+                scanner.GetNextToken();
+                int padFeildOne = 10;
+                int tmpLen = (scanner.token + "").Length;
+                Printer.Write((scanner.token + ""));
+                for (int i = 0; i < (padFeildOne - tmpLen); i++)
+                    Printer.Write(" ");
+                if (scanner.Value.HasValue)
+                    Printer.WriteLine(" " + scanner.Value.Value);
+                else if (scanner.ValueR.HasValue)
+                    Printer.WriteLine(" " + scanner.ValueR.Value);
+                else if (scanner.hasLiteral)
+                    Printer.WriteLine(" \"" + scanner.Literal + "\"");
+                else
+                    Printer.WriteLine(" " + scanner.Lexeme);
+            }
 
             return 0;
         }

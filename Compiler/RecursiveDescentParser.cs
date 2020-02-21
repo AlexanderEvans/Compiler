@@ -9,14 +9,36 @@ namespace Compiler
         static Scanner scanner=null;
         public static int Parse(Scanner scannerObj)
         {
+            int rtnVal = 0;
             if (scannerObj == null)
                 Printer.ErrLine("Scanner object must be passed to RecursiveDescentParser!");
             else
                 scanner = scannerObj;
 
+            MoreClasses();
+            MainClass();
 
+            return rtnVal;
+        }
 
-            return 0;
+        static int MoreClasses()
+        {
+            int rtnVal = 0;
+            if (scanner.token == Globals.Token.classT)
+            {
+                
+            }
+            return rtnVal;
+        }
+
+        static int MainClass()
+        {
+            int rtnVal = 0;
+            if (scanner.token == Globals.Token.classT)
+            {
+
+            }
+            return rtnVal;
         }
 
         static int Match(Globals.Token desired)

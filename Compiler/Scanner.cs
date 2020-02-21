@@ -274,6 +274,7 @@ namespace Compiler
                     }
                     else if (inputIndex + 1 < input.Length && input[inputIndex + 1] == '*')
                     {
+                        //Printer.WarnLine(input[inputIndex]+":"+ input[inputIndex+1]);
                         int cIndex = 2;
                         while (inputIndex + cIndex + 1 < input.Length && !(input[inputIndex + cIndex] == '*' && input[inputIndex + cIndex + 1] == '/'))
                         {
@@ -284,7 +285,8 @@ namespace Compiler
                         if (inputIndex + cIndex >= input.Length)
                             Printer.WarnLine("Scanner Warning: Unmatched parenthesis, was expecting '*/' but found 'eof'");
 
-                        inputIndex += cIndex;
+                        inputIndex += cIndex+1;
+                        //Printer.WarnLine(input[inputIndex] + ":" + input[inputIndex + 1]);
                         GetNextToken();
                     }
                     else
