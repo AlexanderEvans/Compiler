@@ -9,7 +9,7 @@ namespace Compiler
         public enum Token
         {
             classT, publicT, staticT, voidT, mainT, StringT, extendsT, returnT, intT, booleanT,
-            ifT, elseT, whileT, printlnT, lengthT, trueT, falseT, thisT, newT,
+            ifT, elseT, whileT, printlnT, lengthT, trueT, falseT, thisT, newT, finalT,
             relOpT, addOpT, mulOpT, assignOpT,
             oParenT, cParenT, oBraceT, cBraceT, oBrackT, cBrackT,
             dotT, commaT, dQuoteT, semicolonT,
