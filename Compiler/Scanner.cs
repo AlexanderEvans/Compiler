@@ -31,6 +31,7 @@ namespace Compiler
             lookupTable.Add("false", Globals.Token.falseT);
             lookupTable.Add("this", Globals.Token.thisT);
             lookupTable.Add("new", Globals.Token.newT);
+            lookupTable.Add("final", Globals.Token.finalT);
         }
 
         public Globals.Token token;
