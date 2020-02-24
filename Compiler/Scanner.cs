@@ -44,10 +44,20 @@ namespace Compiler
         string input = "";
         int inputIndex = 0;
 
-        public void LoadInput(string input) => this.input = input;
+        public void LoadInput(string input)
+        {
+            this.input = input;
+            inputIndex = 0;
+        }
+
+        public void ResetIndex()
+        {
+            inputIndex = 0;
+            GetNextToken();//load the first token
+        }
 
         //clears the scanner variables
-        void clrVal()
+        public void clrVal()
         {
             Lexeme = "";
             Value = null;
