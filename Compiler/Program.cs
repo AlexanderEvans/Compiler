@@ -19,7 +19,6 @@ namespace Compiler
             //read file
             Printer.DetLine("Reading File...\""+ args[0] + "\"");
             scanner.LoadInput(FileParser.GetStringFromFile(args[0]));
-            //RecursiveDescentParser.Parse(scanner);
 
             Printer.DetLine("Scanning File...");
             Printer.WriteLine("Token      Data");
@@ -42,7 +41,10 @@ namespace Compiler
                     Printer.WriteLine(" " + scanner.Lexeme);
             }
 
-            return 0;
+            scanner.clrVal();
+            scanner.ResetIndex();
+
+            return RecursiveDescentParser.Parse(scanner);
         }
     }
 }
