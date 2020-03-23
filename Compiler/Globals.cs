@@ -16,7 +16,7 @@ namespace Compiler
             numT, idT, unknownT, eofT
         }
     }
-    struct StructuralKeyValuePair<Key, Value>
+    struct StructuralTuple<Key, Value>
     {
         public Key key;
         public Value value;
