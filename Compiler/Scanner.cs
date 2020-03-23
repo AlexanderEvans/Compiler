@@ -294,7 +294,7 @@ namespace Compiler
                         cIndex++;
 
                         if (inputIndex + cIndex >= input.Length)
-                            Printer.WarnLine("Scanner Warning: Unmatched parenthesis, was expecting '*/' but found 'eof'");
+                            Printer.WarnLine("Scanner Warning: Unmatched comment, was expecting '*/' but found 'eof'");
 
                         inputIndex += cIndex+1;
                         //Printer.WarnLine(input[inputIndex] + ":" + input[inputIndex + 1]);
@@ -320,20 +320,21 @@ namespace Compiler
                             i++;
                         }
 
+
                         if (inputIndex + i < input.Length && input[inputIndex + i] != '\"')
-                            Printer.WarnLine("Scanner Warning: Unmatched parenthesis, was expecting '\"' but found '" + input[inputIndex + i] + "'");
+                            Printer.WarnLine("Scanner Warning: Unmatched double quotes, was expecting '\"' but found '" + input[inputIndex + i] + "'");
                         else if (inputIndex + i >= input.Length)
-                            Printer.WarnLine("Scanner Warning: Unmatched parenthesis, was expecting '\"' but found 'eof'");
+                            Printer.WarnLine("Scanner Warning: Unmatched double quotes, was expecting '\"' but found 'eof'");
 
                         for (int j = 1; j < i; j++)
                         {
-                            sb.Append(input[inputIndex + i]);
+                            sb.Append(input[inputIndex + j]);
                         }
 
                         hasLiteral = true;
                         Literal = sb.ToString();
                         Lexeme = "\"" + Literal + "\"";
-                        inputIndex += i;
+                        inputIndex += i+1;
 
                         if (inputIndex + i < input.Length && input[inputIndex + i] == '\"')
                             inputIndex++;
