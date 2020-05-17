@@ -1,11 +1,12 @@
 ﻿using System;
-
+using System.IO;
 namespace Compiler
 {
     class Program
     {
         static int Main(string[] args)
         {
+
             Printer.DetLine("Checking input args...");
             if (args.Length!=1)//ensure we were given a filepath
             {
@@ -44,7 +45,15 @@ namespace Compiler
             scanner.clrVal();
             scanner.ResetIndex();
 
-            return RecursiveDescentParser.Parse(scanner);
+            SymbolTable symbolTable = new SymbolTable();
+
+            string TACPath = Path.ChangeExtension(args[0], ".TAC");
+            string ASMPath = Path.ChangeExtension(args[0], ".asm");
+
+            int rtnVal = RecursiveDescentParser.Parse(scanner, symbolTable);
+            RecursiveDescentParser.DumpTAC(TACPath);
+            RecursiveDescentParser.DumpASM(ASMPath);
+            return rtnVal;
         }
     }
 }
